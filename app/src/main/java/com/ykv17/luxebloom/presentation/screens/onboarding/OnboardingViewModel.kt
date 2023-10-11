@@ -1,7 +1,8 @@
-package com.ykv17.luxebloom.presentation.models
+package com.ykv17.luxebloom.presentation.screens.onboarding
 
 import androidx.lifecycle.ViewModel
 import com.ykv17.luxebloom.R
+import com.ykv17.luxebloom.presentation.models.OnboardingPager
 
 class OnboardingViewModel : ViewModel() {
 

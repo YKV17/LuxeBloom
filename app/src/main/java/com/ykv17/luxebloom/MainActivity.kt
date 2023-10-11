@@ -11,7 +11,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.ykv17.luxebloom.presentation.models.OnboardingViewModel
+import com.ykv17.luxebloom.presentation.screens.onboarding.OnboardingViewModel
 import com.ykv17.luxebloom.presentation.route.RouteScreens
 import com.ykv17.luxebloom.presentation.screens.login.LoginScreen
 import com.ykv17.luxebloom.presentation.screens.onboarding.OnboardingScreen

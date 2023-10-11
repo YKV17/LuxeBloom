@@ -41,7 +41,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.ykv17.luxebloom.presentation.models.OnboardingPager
-import com.ykv17.luxebloom.presentation.models.OnboardingViewModel
 import com.ykv17.luxebloom.presentation.route.RouteScreens
 import kotlinx.coroutines.launch
 
