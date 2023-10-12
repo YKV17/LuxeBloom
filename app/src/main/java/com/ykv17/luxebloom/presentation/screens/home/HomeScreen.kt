@@ -24,9 +24,11 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.icons.outlined.ShoppingCart
+import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
@@ -42,10 +44,17 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
@@ -118,10 +127,26 @@ fun ProductList(
     }
 
     LazyVerticalGrid(columns = GridCells.Adaptive(minSize = 128.dp), modifier = modifier) {
-        items(items = products.products) {
+        items(
+            items = products.products,
+            key = {
+                when (it) {
+                    is ProductListItem.ProductItem -> {
+                        it.id
+                    }
+                }
+            }
+        ) {
             when (val item = it) {
                 is ProductListItem.ProductItem -> {
-                    ProductListItem(item)
+                    ProductListItem(
+                        item,
+                        modifier = Modifier
+                            .padding(4.dp)
+                            .clickable {
+
+                            }
+                    )
                 }
             }
 
@@ -135,17 +160,70 @@ fun ProductListItem(
     modifier: Modifier = Modifier,
     imageModifier: Modifier = Modifier
 ) {
+
+
     Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
     ) {
+
         AsyncImage(
             model = productItem.image,
             contentDescription = productItem.name,
-            modifier = imageModifier.size((Screen.getWindowWidth() / 2 - 32).dp)
+            contentScale = ContentScale.Crop,
+            modifier = imageModifier
+                .size((Screen.getWindowWidth() / 2 - 16).dp)
+                .clip(shape = RoundedCornerShape(10.dp))
         )
+
+        Column(modifier = Modifier.padding(8.dp)) {
+            Text(
+                text = productItem.name,
+                fontSize = 12.sp,
+                maxLines = 1,
+                color = MaterialTheme.colorScheme.onSurface,
+                modifier = Modifier
+                    .padding(horizontal = 4.dp)
+                    .fillMaxWidth()
+            )
+            Row(
+                horizontalArrangement = Arrangement.SpaceBetween,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(2.dp)
+            ) {
+                Row {
+                    Text(
+                        text = productItem.price,
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.onSurface,
+                        modifier = Modifier
+                            .padding(horizontal = 4.dp)
+                    )
+
+                    TextWithLineThrough(text = productItem.actualPrice)
+                }
+
+                Spacer(modifier = Modifier.width(4.dp))
+                Text(
+                    text = "${productItem.discountPercentage}%",
+                    fontSize = 8.sp,
+                    color = MaterialTheme.colorScheme.onSecondary,
+                    modifier = Modifier
+                        .clip(
+                            RoundedCornerShape(2.dp)
+                        )
+                        .background(MaterialTheme.colorScheme.secondary)
+                        .padding(1.dp)
+                )
+            }
+
+        }
     }
+
+
 }
 
 @Composable
@@ -327,6 +405,28 @@ private fun CustomTextField(
             }
         }
     )
+}
+
+@Composable
+fun TextWithLineThrough(text: String) {
+    val annotatedString = buildAnnotatedString {
+        withStyle(
+            style = SpanStyle(
+                textDecoration = TextDecoration.LineThrough
+            )
+        ) {
+            append(text)
+        }
+    }
+
+    Text(
+        text = annotatedString,
+        fontSize = 12.sp,
+        color = MaterialTheme.colorScheme.onSurface,
+        modifier = Modifier
+            .padding(horizontal = 4.dp)
+    )
+
 }
 
 

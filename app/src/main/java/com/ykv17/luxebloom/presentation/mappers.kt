@@ -25,8 +25,19 @@ fun ProductsEntity.toProducts(): List<ProductListItem> {
 
 fun ProductEntity.toProduct(): ProductListItem {
     return ProductListItem.ProductItem(
+        id = id,
         name = title,
         image = thumbnail,
-        price = price
+        price = "₹$price",
+        rating = rating,
+        brand = brand,
+        discountPercentage = discountPercentage,
+        actualPrice = "₹${getActualPrice(price.toDouble(), discountPercentage.toDouble())}"
     )
+}
+
+private fun getActualPrice(amount: Double, discountPercentage: Double): String{
+    val decimalDiscount = discountPercentage / 100.0
+    val actualPrice = amount / (1 - decimalDiscount)
+    return actualPrice.toInt().toString()
 }
