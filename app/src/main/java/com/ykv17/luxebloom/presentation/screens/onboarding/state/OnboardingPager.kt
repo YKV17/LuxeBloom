@@ -1,4 +1,4 @@
-package com.ykv17.luxebloom.presentation.models
+package com.ykv17.luxebloom.presentation.screens.onboarding.state
 
 import androidx.annotation.DrawableRes
 

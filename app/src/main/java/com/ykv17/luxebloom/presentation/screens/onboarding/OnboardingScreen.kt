@@ -39,14 +39,18 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import com.ykv17.luxebloom.presentation.models.OnboardingPager
+import com.ykv17.luxebloom.presentation.screens.onboarding.state.OnboardingPager
 import com.ykv17.luxebloom.presentation.route.RouteScreens
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun OnboardingScreen(viewModel: OnboardingViewModel, navController: NavHostController) {
+fun OnboardingScreen(
+    navController: NavHostController,
+    viewModel: OnboardingViewModel = hiltViewModel()
+) {
     val pageCount = 4
     val pageState = rememberPagerState {
         pageCount
@@ -91,7 +95,7 @@ fun OnboardingScreen(viewModel: OnboardingViewModel, navController: NavHostContr
                             text = "Skip",
                             color = MaterialTheme.colorScheme.primary,
                             modifier = Modifier.clickable {
-                                navController.navigate(RouteScreens.LoginScreen.route) {
+                                navController.navigate(RouteScreens.HomeScreen.route) {
                                     popUpTo(RouteScreens.OnBoardingScreen.route) {
                                         inclusive = true
                                     }
@@ -104,7 +108,7 @@ fun OnboardingScreen(viewModel: OnboardingViewModel, navController: NavHostContr
                     Button(onClick = {
                         coroutineScope.launch {
                             if (pageState.currentPage == pageCount - 1) {
-                                navController.navigate(RouteScreens.LoginScreen.route) {
+                                navController.navigate(RouteScreens.HomeScreen.route) {
                                     popUpTo(RouteScreens.OnBoardingScreen.route) {
                                         inclusive = true
                                     }

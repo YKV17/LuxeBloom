@@ -1,4 +1,4 @@
-package com.ykv17.luxebloom
+package com.ykv17.luxebloom.presentation
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -13,12 +13,15 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.ykv17.luxebloom.presentation.screens.onboarding.OnboardingViewModel
 import com.ykv17.luxebloom.presentation.route.RouteScreens
+import com.ykv17.luxebloom.presentation.screens.home.HomeScreen
 import com.ykv17.luxebloom.presentation.screens.login.LoginScreen
 import com.ykv17.luxebloom.presentation.screens.onboarding.OnboardingScreen
 import com.ykv17.luxebloom.ui.theme.LuxeBloomTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-    private val viewModel: OnboardingViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -30,10 +33,13 @@ class MainActivity : ComponentActivity() {
                     startDestination = RouteScreens.OnBoardingScreen.route
                 ) {
                     composable(RouteScreens.OnBoardingScreen.route) {
-                        OnboardingScreen(viewModel = viewModel, navController = navController)
+                        OnboardingScreen(navController = navController)
                     }
                     composable(RouteScreens.LoginScreen.route) {
                         LoginScreen(navController = navController)
+                    }
+                    composable(RouteScreens.HomeScreen.route) {
+                        HomeScreen(navController = navController)
                     }
                 }
             }

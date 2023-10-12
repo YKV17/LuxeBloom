@@ -4,6 +4,6 @@ import com.ykv17.luxebloom.domain.entity.ProductsEntity
 import com.ykv17.luxebloom.util.Resource
 import kotlinx.coroutines.flow.Flow
 
-interface GetAllProductsUseCase {
-    suspend operator fun invoke(): Flow<Resource<ProductsEntity>>
+interface GetProductsByCategoryUseCase {
+    suspend operator fun invoke(category: String): Flow<Resource<ProductsEntity>>
 }

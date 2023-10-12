@@ -5,5 +5,5 @@ sealed interface ProductListItem{
         val name: String,
         val price: String,
         val image: String
-    )
+    ): ProductListItem
 }

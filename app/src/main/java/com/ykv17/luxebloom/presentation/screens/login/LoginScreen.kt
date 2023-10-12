@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -47,8 +48,9 @@ fun LoginScreen(navController: NavHostController) {
 
     Surface(
         modifier = Modifier
-            .background(MaterialTheme.colorScheme.surface)
-            .padding(16.dp)
+            .fillMaxSize()
+            .padding(16.dp),
+        color = MaterialTheme.colorScheme.background
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally
