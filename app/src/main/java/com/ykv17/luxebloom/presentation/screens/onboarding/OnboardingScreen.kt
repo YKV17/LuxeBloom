@@ -78,8 +78,8 @@ fun OnboardingScreen(
                         .align(Alignment.CenterHorizontally),
                     indicatorModifier = Modifier
                         .padding(2.dp)
-                        .clip(RoundedCornerShape(5.dp))
-                        .height(4.dp)
+                        .clip(CircleShape)
+                        .height(8.dp)
                         .width(8.dp)
                 )
 
