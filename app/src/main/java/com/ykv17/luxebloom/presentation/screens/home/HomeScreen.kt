@@ -24,6 +24,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material.icons.outlined.Search
@@ -32,6 +33,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -62,10 +64,12 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
+import com.ykv17.luxebloom.presentation.route.RouteScreens
 import com.ykv17.luxebloom.presentation.screens.home.state.CategoryListItem
 import com.ykv17.luxebloom.presentation.screens.home.state.CategoryListState
 import com.ykv17.luxebloom.presentation.screens.home.state.HomeUiState
 import com.ykv17.luxebloom.presentation.screens.home.state.ProductListItem
+import com.ykv17.luxebloom.presentation.screens.navigation_bar.BottomNavigationBar
 import com.ykv17.luxebloom.ui.theme.LuxeBloomTheme
 import com.ykv17.luxebloom.util.Screen
 import com.ykv17.luxebloom.util.StateUtils.updateState
@@ -75,6 +79,7 @@ fun HomeScreen(
     navController: NavController,
     viewModel: HomeScreenViewModel = hiltViewModel()
 ) {
+
     Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
         Column(modifier = Modifier.fillMaxSize()) {
             TopAppBar(
@@ -95,11 +100,20 @@ fun HomeScreen(
                     .padding(horizontal = 16.dp)
                     .fillMaxWidth()
                     .height(36.dp)
+                    .shadow(2.dp, CircleShape)
                     .clip(CircleShape)
                     .clickable {
 
                     }
-                    .background(Color.LightGray.copy(alpha = 0.3f))
+                    .background(MaterialTheme.colorScheme.surface, shape = CircleShape)
+                    .border(
+                        BorderStroke(
+                            width = 0.2.dp,
+                            color = Color.LightGray.copy(alpha = 0.2f),
+
+                            ),
+                        shape = CircleShape
+                    )
                     .padding(4.dp)
             )
             CategoryList(
@@ -110,6 +124,7 @@ fun HomeScreen(
             )
 
             ProductList(
+                navController = navController,
                 viewModel = viewModel,
                 modifier = Modifier.padding(start = 16.dp, end = 16.dp)
             )
@@ -119,6 +134,7 @@ fun HomeScreen(
 
 @Composable
 fun ProductList(
+    navController: NavController,
     viewModel: HomeScreenViewModel,
     modifier: Modifier = Modifier
 ) {
@@ -144,7 +160,7 @@ fun ProductList(
                         modifier = Modifier
                             .padding(4.dp)
                             .clickable {
-
+                                navController.navigate(RouteScreens.ProductScreen.route + "/${item.id}")
                             }
                     )
                 }
@@ -167,15 +183,38 @@ fun ProductListItem(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
     ) {
+        Box {
+            AsyncImage(
+                model = productItem.image,
+                contentDescription = productItem.name,
+                contentScale = ContentScale.Crop,
+                modifier = imageModifier
+                    .size((Screen.getWindowWidth() / 2 - 16).dp)
+                    .clip(shape = RoundedCornerShape(10.dp))
+            )
 
-        AsyncImage(
-            model = productItem.image,
-            contentDescription = productItem.name,
-            contentScale = ContentScale.Crop,
-            modifier = imageModifier
-                .size((Screen.getWindowWidth() / 2 - 16).dp)
-                .clip(shape = RoundedCornerShape(10.dp))
-        )
+            /*Row(verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .clip(
+                        RoundedCornerShape(2.dp)
+                    )
+                    .background(MaterialTheme.colorScheme.secondary)
+                    .padding(1.dp)
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.Star,
+                    tint = Color.Yellow,
+                    contentDescription = "Start",
+                    modifier = Modifier.size(10.dp)
+                )
+                Text(
+                    text = "${productItem.rating}",
+                    fontSize = 10.sp,
+                    color = MaterialTheme.colorScheme.onSecondary
+                )
+            }*/
+
+        }
 
         Column(modifier = Modifier.padding(8.dp)) {
             Text(
@@ -203,7 +242,7 @@ fun ProductListItem(
                             .padding(horizontal = 4.dp)
                     )
 
-                    TextWithLineThrough(text = productItem.actualPrice)
+                    TextWithLineThrough(text = productItem.actualPrice, fontSize = 12.sp)
                 }
 
                 Spacer(modifier = Modifier.width(4.dp))
@@ -319,12 +358,14 @@ fun SearchBarPlaceHolder(
         Spacer(modifier = Modifier.width(4.dp))
         Icon(
             imageVector = Icons.Outlined.Search,
-            contentDescription = "Search"
+            contentDescription = "Search",
+            tint = Color.Gray
         )
         Text(
             text = placeholder,
             modifier = Modifier.padding(4.dp),
-            fontSize = 14.sp
+            fontSize = 14.sp,
+            color = Color.Gray
         )
     }
 }
@@ -408,7 +449,7 @@ private fun CustomTextField(
 }
 
 @Composable
-fun TextWithLineThrough(text: String) {
+fun TextWithLineThrough(text: String, fontSize: TextUnit = TextUnit.Unspecified) {
     val annotatedString = buildAnnotatedString {
         withStyle(
             style = SpanStyle(
@@ -421,7 +462,7 @@ fun TextWithLineThrough(text: String) {
 
     Text(
         text = annotatedString,
-        fontSize = 12.sp,
+        fontSize = fontSize,
         color = MaterialTheme.colorScheme.onSurface,
         modifier = Modifier
             .padding(horizontal = 4.dp)

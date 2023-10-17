@@ -10,7 +10,7 @@ interface ProductRepository {
     suspend fun getAllProducts(): Resource<ProductsEntity>
     suspend fun getProductsByCategory(category: String): Resource<ProductsEntity>
 
-    suspend fun getProductDetails(productId: Int): Resource<ProductEntity>
+    suspend fun getProductDetails(productId: String): Resource<ProductEntity>
 
     suspend fun getAllCategories(): Resource<CategoriesEntity>
 }

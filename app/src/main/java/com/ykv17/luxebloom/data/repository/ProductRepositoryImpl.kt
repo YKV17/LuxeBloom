@@ -34,7 +34,7 @@ class ProductRepositoryImpl @Inject constructor(
         return Resource.Success(response.toProductsEntity())
     }
 
-    override suspend fun getProductDetails(productId: Int): Resource<ProductEntity> {
+    override suspend fun getProductDetails(productId: String): Resource<ProductEntity> {
         val response = try {
             productsApi.getProductDetails(productId)
         } catch (e: Exception) {

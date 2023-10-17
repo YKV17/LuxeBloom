@@ -4,18 +4,29 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.ykv17.luxebloom.presentation.screens.onboarding.OnboardingViewModel
 import com.ykv17.luxebloom.presentation.route.RouteScreens
 import com.ykv17.luxebloom.presentation.screens.home.HomeScreen
 import com.ykv17.luxebloom.presentation.screens.login.LoginScreen
+import com.ykv17.luxebloom.presentation.screens.navigation_bar.BottomNavigationBar
 import com.ykv17.luxebloom.presentation.screens.onboarding.OnboardingScreen
+import com.ykv17.luxebloom.presentation.screens.product.ProductDetailScreen
 import com.ykv17.luxebloom.ui.theme.LuxeBloomTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -41,11 +52,27 @@ class MainActivity : ComponentActivity() {
                     composable(RouteScreens.HomeScreen.route) {
                         HomeScreen(navController = navController)
                     }
+                    composable(route = RouteScreens.ProductScreen.route + "/{productId}",
+                        arguments = listOf(
+                            navArgument("productId") {
+                                type = NavType.StringType
+                            }
+                        )
+                    ) {
+
+                        val productId = remember {
+                            it.arguments?.getString("productId") ?: ""
+                        }
+
+                        ProductDetailScreen(navController = navController, productId = productId)
+                    }
                 }
             }
+
         }
     }
 }
+
 
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier) {

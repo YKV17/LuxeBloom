@@ -17,8 +17,8 @@ interface ProductsApi {
         @Path("category") category: String
     ): ProductsDto
 
-    @GET("products/{id}")
-    suspend fun getProductDetails(productId: Int): ProductDto
+    @GET("products/{productId}")
+    suspend fun getProductDetails(@Path("productId") productId: String): ProductDto
 
     @GET("/products/categories")
     suspend fun getAllCategories(): CategoriesDto

@@ -7,6 +7,8 @@ import com.ykv17.luxebloom.domain.usecases.GetAllProductCategoriesUseCase
 import com.ykv17.luxebloom.domain.usecases.GetAllProductCategoriesUseCaseImpl
 import com.ykv17.luxebloom.domain.usecases.GetAllProductsUseCase
 import com.ykv17.luxebloom.domain.usecases.GetAllProductsUseCaseImpl
+import com.ykv17.luxebloom.domain.usecases.GetProductUseCase
+import com.ykv17.luxebloom.domain.usecases.GetProductUseCaseImpl
 import com.ykv17.luxebloom.domain.usecases.GetProductsByCategoriesUseCaseImpl
 import com.ykv17.luxebloom.domain.usecases.GetProductsByCategoryUseCase
 import com.ykv17.luxebloom.util.Constants.BASE_URL
@@ -60,5 +62,12 @@ object AppModule {
     fun provideGetProductsByCategoriesUseCase(
         productRepository: ProductRepository
     ): GetProductsByCategoryUseCase = GetProductsByCategoriesUseCaseImpl(productRepository)
+
+
+    @Singleton
+    @Provides
+    fun provideGetProductUseCase(
+        productRepository: ProductRepository
+    ): GetProductUseCase = GetProductUseCaseImpl(productRepository)
 
 }

@@ -5,6 +5,7 @@ import com.ykv17.luxebloom.domain.entity.ProductEntity
 import com.ykv17.luxebloom.domain.entity.ProductsEntity
 import com.ykv17.luxebloom.presentation.screens.home.state.CategoryListItem
 import com.ykv17.luxebloom.presentation.screens.home.state.ProductListItem
+import com.ykv17.luxebloom.presentation.screens.product.state.ProductDetail
 import java.util.Locale
 
 fun CategoriesEntity.toCategories(): List<CategoryListItem> {
@@ -36,7 +37,24 @@ fun ProductEntity.toProduct(): ProductListItem {
     )
 }
 
-private fun getActualPrice(amount: Double, discountPercentage: Double): String{
+fun ProductEntity.toProductDetails(): ProductDetail {
+    return ProductDetail(
+        id = id,
+        title = title,
+        brand = brand,
+        thumbnail = thumbnail,
+        price = "₹$price",
+        rating = rating,
+        description = description,
+        category = category,
+        images = images,
+        stock = stock,
+        discountPercentage = discountPercentage,
+        actualPrice = "₹${getActualPrice(price.toDouble(), discountPercentage.toDouble())}"
+    )
+}
+
+private fun getActualPrice(amount: Double, discountPercentage: Double): String {
     val decimalDiscount = discountPercentage / 100.0
     val actualPrice = amount / (1 - decimalDiscount)
     return actualPrice.toInt().toString()

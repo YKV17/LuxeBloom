@@ -135,7 +135,7 @@ fun HorizontalPagerIndicator(
     pagerState: PagerState,
     activeColor: Color = MaterialTheme.colorScheme.primary,
     inactiveColor: Color = MaterialTheme.colorScheme.inversePrimary,
-    modifier: Modifier = Modifier.wrapContentHeight(),
+    modifier: Modifier = Modifier,
     indicatorModifier: Modifier = Modifier
         .padding(2.dp)
         .clip(CircleShape)
